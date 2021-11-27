@@ -1,0 +1,129 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+public class CountChar extends JFrame implements ActionListener{
+    JLabel lb1,lb2,lb3,lb4;
+    JLabel click;
+    JTextArea ta;
+    private int count = 0;
+    JLabel label;
+    JButton b ;
+    JButton generate;
+    JButton bg;
+    JFrame f;
+    JButton button;
+    JButton pad,text;
+    JPanel panel;
+    CountChar(){
+
+
+         f = new JFrame();
+
+
+        lb1=new JLabel("Characters: ");
+        lb1.setBounds(50,20,100,20);
+        lb2=new JLabel("Words: ");
+        lb2.setBounds(50,40,100,20);
+        lb3 = new JLabel("Space: ");
+        lb3.setBounds(50,60,100,20);
+        lb4=new JLabel("Number: ");
+        lb4.setBounds(50,80,100,20);
+        click=new JLabel("Number of Click: 0 ");
+        click.setBounds(220,40,150,20);
+
+
+        ta=new JTextArea();
+        ta.setBounds(50,110,400,200);
+
+        b=new JButton("count");
+        b.setBounds(50,320, 80,30);//x,y,w,h
+        b.addActionListener(this);
+
+        generate = new JButton("Generate");
+        generate.setBounds(220,80, 100,20);
+        generate.addActionListener(this);
+
+        button = new JButton("click me");
+        button.setBounds(220,20, 100,20);//x,y,w,h
+        button.addActionListener(this);
+
+        pad=new JButton("Pad Color");
+        pad.setBounds(140,320, 110,30);//x,y,w,h
+        pad.addActionListener(this);
+
+         bg=new JButton("Change background");
+        bg.setBounds(140,360, 210,30);//x,y,w,h
+        bg.addActionListener(this);
+
+
+        text=new JButton("Text Color");
+        text.setBounds(260,320, 110,30);//x,y,w,h
+        text.addActionListener(this);
+
+        f.add(lb1);f.add(lb2);f.add(lb3);f.add(lb4);f.add(click);
+        f.add(ta);f.add(b);f.add(pad);f.add(text);f.add(button);f.add(generate);f.add(bg);
+
+        f.setSize(500,500);
+        f.setLayout(null);//using no layout manager
+        f.setVisible(true);
+        f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        f.setTitle("Word Char Count Tool");
+    }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == generate) {
+            int n = 55;
+            String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "             "+"0123456789" + "abcdefghijklmnopqrstuvxyz" +"0123456789";
+            StringBuilder s = new StringBuilder(n);
+            int y;
+            for ( y = 0; y < n; y++) {
+                int index = (int)(AlphaNumericString.length() * Math.random());
+                s.append(AlphaNumericString.charAt(index));
+            }
+            String ans =s.toString();
+            ta.setText(ans);
+        }
+        else if (e.getSource() == b) {
+            String text = ta.getText();
+
+            String words[] = text.split("\\s");
+            lb2.setText("Words: " + (words.length));
+
+            int space = 0;
+            int digit = 0;
+            int word;
+            char[] ans = text.toCharArray();
+            for (Character c : ans) {
+                if (Character.isDigit(c)) {
+                    digit++;
+                } else if (Character.isSpaceChar(c)) {
+                    space++;
+
+                }
+
+            }
+            lb1.setText("Characters: " + (text.length() - space - digit));
+            lb3.setText("Space: " + space);
+
+            lb4.setText("Number: " + digit);
+        } else if (e.getSource() == pad) {
+            Color c = JColorChooser.showDialog(this, "Choose Color", Color.BLACK);
+            ta.setBackground(c);
+        } else if (e.getSource() == text) {
+            Color c = JColorChooser.showDialog(this, "Choose Color", Color.BLACK);
+            ta.setForeground(c);
+        }
+        else if (e.getSource() == button) {
+            count++;
+            click.setText("Number of Clicks: " + count);
+        }
+        else if (e.getSource() == bg) {
+            Color c = JColorChooser.showDialog(this, "Choose Color", Color.BLACK);
+            f.getContentPane().setBackground(c);
+        }
+
+    }
+    public static void main (String[]args){
+
+        new CountChar();
+    }
+}
